@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "parcel": "^2.3.1",
+    "phaser": "^3.55.2"
+  },
+  "name": "wizardsdungeon",
+  "description": "Final Project Phaser Game for Momentum",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html -p 6969",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badmicro/WizardsDungeon.git"
+  },
+  "author": "Jeffrey Gilley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/badmicro/WizardsDungeon/issues"
+  },
+  "homepage": "https://github.com/badmicro/WizardsDungeon#readme"
+}
