@@ -6,12 +6,14 @@ import {debugDraw} from '../../utils/debug'
 import { createPlayerAnims } from '../animations/PlayerAnims'
 import { createSlimeAnims } from '../animations/EnemyAnims'
 //character classes
+import  "../characters/Wizard"
 import Slime from "../enemies/Slime"
+import Wizard from "../characters/Wizard"
 
 export default class Game extends Phaser.Scene
 {
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
-    private player!: Phaser.Physics.Arcade.Sprite
+    private player!: Wizard
 
     constructor()
     {
@@ -26,6 +28,8 @@ export default class Game extends Phaser.Scene
 
     create()
     {
+        this.scene.run('game-ui')
+        
         const map = this.make.tilemap({ key: 'dungeon' })
         const tileset = map.addTilesetImage('dungeon', 'tiles')
 
@@ -42,9 +46,7 @@ export default class Game extends Phaser.Scene
         // Player Animations
         createPlayerAnims(this.anims)
         // Player Initialization
-        this.player = this.physics.add.sprite(128, 128, 'player', 'wizzard_m_idle_anim_f1.png')
-        this.player.body.setSize(this.player.width, this.player.height * 0.75)
-        this.player.body.setOffset(0, 8)
+        this.player = this.add.wizard(128, 140, 'wizard')
         
         // Player Camera
         this.cameras.main.startFollow(this.player, true)
@@ -68,61 +70,28 @@ export default class Game extends Phaser.Scene
         // Enemy and Walls
         this.physics.add.collider(slimes, wallsLayer)
         // Player and Enemy
-        this.physics.add.collider(this.player, slimes)
-        // this.physics.add.collider(slimes, this.player, this.handlePlayerSlimeCollision, undefined, this)
+        this.physics.add.collider(slimes, this.player, this.handlePlayerSlimeCollision, undefined, this)
     }//end create
 
-    // private handlePlayerSlimeCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
-    // {
-    //     const lizard = obj2 as Lizard
-    //     const dx = this.player.x - lizard.x
-    //     const dy  = this.player.y = lizard.y
+    private handlePlayerSlimeCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
+    {
+        // console.dir(obj1)
+        // console.dir(obj2)
+        const slime = obj2 as Slime
 
-    //     const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+        const dx = this.player.x - slime.x
+        const dy = this.player.y - slime.y
 
-    //     this.player.setVelocity(dir.x, dir.y)
-    //     //console.dir(obj1)
-    //     //console.dir(obj2)
-    // }
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+
+        this.player.handleDamage(dir)
+    }
 
     update(t: number, dt: number)
     {
-        if(!this.cursors || !this.player)
+        if(this.player)
         {
-            return
-        }
-
-        ////PLAYER CONTROLS
-        const speed = 100
-
-        if(this.cursors.left?.isDown)
-        {
-            this.player.anims.play('player-move', true)
-            this.player.setVelocity(-speed, 0)
-
-            this.player.flipX = true
-        }
-        else if(this.cursors.right?.isDown)
-        {
-            this.player.anims.play('player-move', true)
-            this.player.setVelocity(speed, 0)
-
-            this.player.flipX = false
-        }
-        else if(this.cursors.up?.isDown)
-        {
-            this.player.anims.play('player-move', true)
-            this.player.setVelocity(0, -speed)
-        }
-        else if(this.cursors.down?.isDown)
-        {
-            this.player.anims.play('player-move', true)
-            this.player.setVelocity(0, speed)
-        }
-        else
-        {
-            this.player.anims.play('player-idle', true)
-            this.player.setVelocity(0, 0)
+            this.player.update(this.cursors)
         }
     }//end update
 }
