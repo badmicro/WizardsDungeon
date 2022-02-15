@@ -5,10 +5,12 @@ import {debugDraw} from '../../utils/debug'
 //import anims
 import { createPlayerAnims } from '../animations/PlayerAnims'
 import { createSlimeAnims } from '../animations/EnemyAnims'
-//character classes
+//import character classes
 import  "../characters/Wizard"
 import Slime from "../enemies/Slime"
 import Wizard from "../characters/Wizard"
+//import events
+import { sceneEvents } from '../events/EventCenter'
 
 export default class Game extends Phaser.Scene
 {
@@ -29,7 +31,7 @@ export default class Game extends Phaser.Scene
     create()
     {
         this.scene.run('game-ui')
-        
+
         const map = this.make.tilemap({ key: 'dungeon' })
         const tileset = map.addTilesetImage('dungeon', 'tiles')
 
@@ -85,6 +87,8 @@ export default class Game extends Phaser.Scene
         const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
 
         this.player.handleDamage(dir)
+
+        sceneEvents.emit('player-health-changed', this.player.health)
     }
 
     update(t: number, dt: number)

@@ -14,13 +14,23 @@ declare global
 enum HealthState
 {
     IDLE,
-    DAMAGE
+    DAMAGE,
+    DEAD
 }
 
 export default class Wizard extends Phaser.Physics.Arcade.Sprite
 {
     private healthState = HealthState.IDLE
     private damageTime = 0
+
+    //underscore is a convention for private vars
+    //use method to handle get
+    private _health = 3
+
+    get health()
+    {
+        return this._health
+    }
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number)
     {
@@ -31,17 +41,34 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
 
     handleDamage(dir: Phaser.Math.Vector2)
     {
+        if(this._health <= 0)
+        {
+            return
+        }
         if(this.healthState === HealthState.DAMAGE)
         {
             return
         }
 
-        this.setVelocity(dir.x, dir.y)
+        --this._health
 
-        this.setTint(0xff0000)
+        if(this.health <= 0)
+        {
+            //TODO: die
+            this.healthState = HealthState.DEAD
+            this.setTint(0x8a0303)
+            this.play('player-hit')
+        }
+        else
+        {
+            this.setVelocity(dir.x, dir.y)
 
-        this.healthState = HealthState.DAMAGE
-        this.damageTime = 0
+            this.setTint(0xff0000)
+            this.play('player-hit')
+
+            this.healthState = HealthState.DAMAGE
+            this.damageTime = 0
+        }
     }
 
     preUpdate(time: number, delta: number)
@@ -66,7 +93,8 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys)
     {
-        if(this.healthState === HealthState.DAMAGE)
+        if(this.healthState === HealthState.DAMAGE
+            || this.healthState === HealthState.DEAD)
         {
             return
         }
