@@ -20,6 +20,10 @@ import healthPotion from '../../assets/items/flask_big_red.png'
 import slimeJSON from '../../assets/enemies/slime.json'
 import slimePNG from '../../assets/enemies/slime.png'
 
+//Import Title Scene Background
+import titleIMG from '../../assets/tiles/Wizards-Dungeon.png'
+//Import Title Scene Button
+import startButtonIMG from '../../assets/ui/start_button.png'
 
 export default class Preloader extends Phaser.Scene
 {
@@ -29,6 +33,11 @@ export default class Preloader extends Phaser.Scene
     }
     preload()
     {
+        //Title Scene Background
+        this.load.image('background', titleIMG)
+        //Title Scene Button
+        this.load.image('start-button', startButtonIMG)
+
         //Walls and Floor
         this.load.image('tiles', dungeonTiles)
         this.load.tilemapTiledJSON('dungeon', dungeonMap)
@@ -49,6 +58,6 @@ export default class Preloader extends Phaser.Scene
 
     create()
     {
-        this.scene.start('game')
+        this.scene.start('title', { title: 'Wizards Dungeon' })
     }
 }

@@ -39,8 +39,10 @@ export default class Game extends Phaser.Scene
 
     create()
     {
+        //create UI layer
         this.scene.run('game-ui')
 
+        //create dungeon layer
         const map = this.make.tilemap({ key: 'dungeon' })
         const tileset = map.addTilesetImage('dungeon', 'tiles')
 
@@ -50,7 +52,7 @@ export default class Game extends Phaser.Scene
         wallsLayer.setCollisionByProperty({ collides: true })
 
         // abstracted Debug filter
-        debugDraw(wallsLayer, this)
+        //debugDraw(wallsLayer, this)
 
 
         ////// PLAYER
@@ -89,7 +91,12 @@ export default class Game extends Phaser.Scene
                 slimeGameObj.body.onCollide = true
             }
         })
-        this.slimes.get(156, 56, 'slime')
+
+        const slimesLayer = map.getObjectLayer('Slimes')
+        slimesLayer.objects.forEach(slimeObj => {
+            this.slimes.get(slimeObj.x! + slimeObj.width! * 0.5, slimeObj.y! + slimeObj.height! * 0.5, 'slime')
+        })
+        
 
 
         ////// PHYSICS
@@ -101,6 +108,10 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.magicMissles, wallsLayer, this.handleMagicMisslesWallCollision, undefined, this)
         // Magic Missles and Slimes
         this.physics.add.collider(this.magicMissles, this.slimes, this.handleMagicSlimeCollision, undefined, this)
+        // Fireball and Slimes
+        this.physics.add.collider(this.fireball, this.slimes, this.handleFireballSlimeCollision, undefined, this)
+        // Fireball and Health Potions
+        this.physics.add.collider(this.fireball, this.healthPotions, this.handleFireballHealthPotionCollision, undefined, this)
         // Player and Enemy
         this.playerSlimesCollider = this.physics.add.collider(this.slimes, this.player, this.handlePlayerSlimeCollision, undefined, this)
         // Player and Health Potion
@@ -123,6 +134,13 @@ export default class Game extends Phaser.Scene
         this.healthPotions.get(x, y, 'health-potion') as Phaser.Physics.Arcade.Image
     }
 
+    private handleFireballSlimeCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
+    {
+        this.slimes.killAndHide(obj2)
+        obj2.destroy()
+
+    }
+
     private handlePlayerHealthPotionCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
         obj2.destroy()
@@ -134,6 +152,11 @@ export default class Game extends Phaser.Scene
             this.playerSlimesCollider?.destroy()
             this.playerHealthPotionsCollider?.destroy()
         }
+    }
+
+    private handleFireballHealthPotionCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
+    {
+        obj2.destroy()
     }
 
     private handlePlayerSlimeCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
@@ -162,5 +185,17 @@ export default class Game extends Phaser.Scene
         {
             this.player.update(this.cursors)
         }
+        //Lose Condition
+        if(this.player.health <= 0)
+        {
+            this.scene.start('game-over', { title: 'Game Over' })
+            return
+        }
+        //Win Condition?
+        if(this.slimes.countActive() <= 0)
+        {
+            this.scene.start('game-over', { title: 'Deeper Still'})
+        }
+
     }//end update
 }

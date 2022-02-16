@@ -158,7 +158,6 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
         {
             return
         }
-        this.fireballState = FireballState.ONCOOLDOWN
 
         const direction = this.facing
         const vec = new Phaser.Math.Vector2(0, 0)
@@ -191,7 +190,13 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
 
         fireball.x += vec.x * 16
         fireball.y += vec.y * 16
+
+        fireball.setBounce(0, 0)
+        fireball.setImmovable(true)
+
         fireball.setVelocity(vec.x *300, vec.y * 300)
+        
+        this.fireballState = FireballState.ONCOOLDOWN
     }
 
     preUpdate(time: number, delta: number)
@@ -246,7 +251,6 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
         if(Phaser.Input.Keyboard.JustDown(cursors.shift!))
         {
             this.castFireball()
-            this.anims.play('fireball', true)
             return
         }
         

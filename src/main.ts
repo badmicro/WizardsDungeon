@@ -4,6 +4,9 @@ import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
 import GameUI from './scenes/GameUI'
 
+import Title from './scenes/Title'
+import GameOver from './scenes/GameOver'
+
 
 export default new Phaser.Game({
     type: Phaser.AUTO,
@@ -13,10 +16,10 @@ export default new Phaser.Game({
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: true
+            debug: false
         }
     },
-    scene: [Preloader, Game, GameUI],
+    scene: [Preloader, Game, GameUI, GameOver, Title],
     scale: {
         zoom: 2
     }

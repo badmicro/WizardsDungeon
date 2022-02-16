@@ -64,18 +64,22 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite
         {
             case Direction.UP:
                 this.setVelocity(0, -speed)
+                this.anims.play('slime-move', true)
                 break
 
             case Direction.DOWN:
                 this.setVelocity(0, speed)
+                this.anims.play('slime-move', true)
                 break
 
             case Direction.LEFT:
                 this.setVelocity(-speed, 0)
+                this.anims.play('slime-move', true)
                 break
 
             case Direction.RIGHT:
                 this.setVelocity(speed, 0)
+                this.anims.play('slime-move', true)
                 break
         }
     }
