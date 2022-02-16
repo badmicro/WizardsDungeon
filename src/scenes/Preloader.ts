@@ -83,6 +83,10 @@ export default class Preloader extends Phaser.Scene
         this.load.image('health-potion', healthPotion)
         //Enemy
         this.load.atlas('slime', slimePNG, slimeJSON)
+
+
+        //Audio
+        this.load.audio('ambient', ambientAudio)
     }
 
     create()
