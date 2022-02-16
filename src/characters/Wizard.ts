@@ -17,15 +17,33 @@ enum HealthState
     DAMAGE,
     DEAD
 }
+enum FireballState
+{
+    ONCOOLDOWN,
+    OFFCOOLDOWN
+}
+enum Facing
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
 
 export default class Wizard extends Phaser.Physics.Arcade.Sprite
 {
     private healthState = HealthState.IDLE
     private damageTime = 0
+    private facing = Facing.RIGHT
+    private fireballState = FireballState.OFFCOOLDOWN
+    private fireballCD = 0
 
     //underscore is a convention for private vars
     //use method to handle get
     private _health = 3
+
+    private magicMissles?: Phaser.Physics.Arcade.Group
+    private fireball?: Phaser.Physics.Arcade.Group
 
     get health()
     {
@@ -37,6 +55,16 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
         super(scene, x, y, texture, frame)
 
         this.anims.play('player-idle')
+    }
+
+    setMagicMissles(magicMissles: Phaser.Physics.Arcade.Group)
+    {
+        this.magicMissles = magicMissles
+    }
+
+    setFireball(fireball: Phaser.Physics.Arcade.Group)
+    {
+        this.fireball = fireball
     }
 
     handleDamage(dir: Phaser.Math.Vector2)
@@ -58,6 +86,8 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
             this.healthState = HealthState.DEAD
             this.setTint(0x8a0303)
             this.play('player-hit')
+
+            this.setVelocity(0, 0)
         }
         else
         {
@@ -69,6 +99,99 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
             this.healthState = HealthState.DAMAGE
             this.damageTime = 0
         }
+    }
+
+    handleHealthPotion()
+    {
+        if(this._health < 3)
+        {
+            ++this._health
+        }
+    }
+
+    private castMagicMissles()
+    {
+        if(!this.magicMissles)
+        {
+            return
+        }
+
+        const direction = this.facing
+        const vec = new Phaser.Math.Vector2(0, 0)
+
+        switch(direction)
+        {
+            case Facing.UP:
+                vec.y = -1
+                break
+            case Facing.DOWN:
+                vec.y = 1
+                break
+            case Facing.LEFT:
+                vec.x = -1
+                break
+            default:
+            case Facing.RIGHT:
+                vec.x = 1
+                break
+        }
+
+        const angle = vec.angle()
+        const magicMissle = this.magicMissles.get(this.x, this.y, 'magicMissle') as Phaser.Physics.Arcade.Image
+
+        magicMissle.setActive(true)
+        magicMissle.setVisible(true)
+
+        magicMissle.setRotation(angle)
+        magicMissle.body.setSize(magicMissle.width * 0.5, magicMissle.height * 0.5)
+
+        magicMissle.x += vec.x * 16
+        magicMissle.y += vec.y * 16
+        magicMissle.setVelocity(vec.x *300, vec.y * 300)
+        magicMissle.setTint(0x6AEB2B)
+    }
+
+    private castFireball()
+    {
+        if(!this.fireball
+            || this.fireballState === FireballState.ONCOOLDOWN)
+        {
+            return
+        }
+        this.fireballState = FireballState.ONCOOLDOWN
+
+        const direction = this.facing
+        const vec = new Phaser.Math.Vector2(0, 0)
+
+        switch(direction)
+        {
+            case Facing.UP:
+                vec.y = -1
+                break
+            case Facing.DOWN:
+                vec.y = 1
+                break
+            case Facing.LEFT:
+                vec.x = -1
+                break
+            default:
+            case Facing.RIGHT:
+                vec.x = 1
+                break
+        }
+
+        const angle = vec.angle()
+        const fireball = this.fireball.get(this.x, this.y, 'fireball') as Phaser.Physics.Arcade.Sprite
+
+        fireball.setActive(true)
+        fireball.setVisible(true)
+
+        fireball.setRotation(angle)
+        fireball.body.setSize(fireball.width * 0.5, fireball.height * 0.5)
+
+        fireball.x += vec.x * 16
+        fireball.y += vec.y * 16
+        fireball.setVelocity(vec.x *300, vec.y * 300)
     }
 
     preUpdate(time: number, delta: number)
@@ -89,6 +212,18 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
                 }
                 break
         }
+        switch(this.fireballState)
+        {
+            case FireballState.OFFCOOLDOWN:
+                break
+            case FireballState.ONCOOLDOWN:
+                this.fireballCD += delta
+                if(this.fireballCD >= 3000)
+                {
+                    this.fireballState = FireballState.OFFCOOLDOWN
+                    this.fireballCD = 0
+                }
+        }
     }
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys)
@@ -103,12 +238,25 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
             return
         }
         
+        if(Phaser.Input.Keyboard.JustDown(cursors.space!))
+        {
+            this.castMagicMissles()
+            return
+        }
+        if(Phaser.Input.Keyboard.JustDown(cursors.shift!))
+        {
+            this.castFireball()
+            this.anims.play('fireball', true)
+            return
+        }
+        
         const speed = 100
 
         if(cursors.left?.isDown)
         {
             this.anims.play('player-move', true)
             this.setVelocity(-speed, 0)
+            this.facing = Facing.LEFT
 
             this.flipX = true
         }
@@ -116,6 +264,7 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
         {
             this.anims.play('player-move', true)
             this.setVelocity(speed, 0)
+            this.facing = Facing.RIGHT
 
             this.flipX = false
         }
@@ -123,11 +272,13 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
         {
             this.anims.play('player-move', true)
             this.setVelocity(0, -speed)
+            this.facing = Facing.UP
         }
         else if(cursors.down?.isDown)
         {
             this.anims.play('player-move', true)
             this.setVelocity(0, speed)
+            this.facing = Facing.DOWN
         }
         else
         {

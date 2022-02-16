@@ -18,6 +18,12 @@ const createPlayerAnims = (anims: Phaser.Animations.AnimationManager) => {
         frameRate: 8,
         frames: anims.generateFrameNames('player', {start: 0, end: 0, prefix: 'wizzard_m_hit_anim_f', suffix: '.png'})
     })
+    anims.create({
+        key: 'fireball',
+        repeat: -1,
+        frameRate: 15,
+        frames: anims.generateFrameNames('fireball', {start: 1, end: 60, prefix: '', suffix: '.png'})
+    })
 }
 
 export {
