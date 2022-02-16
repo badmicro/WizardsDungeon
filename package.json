@@ -20,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/badmicro/WizardsDungeon/issues"
   },
-  "homepage": "https://github.com/badmicro/WizardsDungeon#readme"
+  "homepage": "https://github.com/badmicro/WizardsDungeon#readme",
+  "targets": {
+    "default": {
+      "includeNodeModules": true
+    }
+  },
+  "engines": {
+    "node": "10"
+  }
 }
