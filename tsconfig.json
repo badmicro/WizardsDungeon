@@ -10,8 +10,10 @@
 		"importHelpers": true,
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
+		"jsxImportSource": "preact",
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
+		"isolatedModules": true,
 		"sourceMap": true,
 		"baseUrl": "./src",
 		"paths": {
