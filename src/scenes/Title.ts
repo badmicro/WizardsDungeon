@@ -3,7 +3,8 @@ import Phaser from "phaser"
 export default class Title extends Phaser.Scene
 {
 
-    private button!: Phaser.GameObjects.Sprite
+    private start_button!: Phaser.GameObjects.Sprite
+    private controls_button!: Phaser.GameObjects.Sprite
 
     constructor()
     {
@@ -25,26 +26,45 @@ export default class Title extends Phaser.Scene
         })
         titleText.setOrigin(0.5, 0.5)
 
-        this.button = this.add.sprite(width * 0.5, height * 0.75, 'start-button').setInteractive()
-        this.button.scale = 0.25
+        this.start_button = this.add.sprite(width * 0.25, height * 0.65, 'start-button').setInteractive()
+        this.start_button.scale = 0.2
 
-        this.button.on('pointerdown', () => {
+        this.start_button.on('pointerdown', () => {
             this.scene.start('game')
+        })
+
+        this.controls_button = this.add.sprite(width * 0.75, height * .65, 'controls-button').setInteractive()
+        this.controls_button.scale = 0.2
+
+        this.controls_button.on('pointerdown', () => {
+            this.scene.start('controls')
         })
     }
 
     update()
     {
-        if(!this.button)
+        if(!this.start_button)
         {
             return
         }
 
-        this.button.on('pointerover', () => {
-            this.button.setTint(0x8a0303)
+        this.start_button.on('pointerover', () => {
+            this.start_button.setTint(0x8a0303)
         })
-        this.button.on('pointerout', () => {
-            this.button.setTint(0xffffff)
+        this.start_button.on('pointerout', () => {
+            this.start_button.setTint(0xffffff)
+        })
+
+        if(!this.controls_button)
+        {
+            return
+        }
+
+        this.controls_button.on('pointerover', () => {
+            this.controls_button.setTint(0x8a0303)
+        })
+        this.controls_button.on('pointerout', () => {
+            this.controls_button.setTint(0xffffff)
         })
     }
 

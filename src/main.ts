@@ -6,6 +6,7 @@ import GameUI from './scenes/GameUI'
 
 import Title from './scenes/Title'
 import GameOver from './scenes/GameOver'
+import Controls from './scenes/Controls'
 
 
 export default new Phaser.Game({
@@ -19,7 +20,7 @@ export default new Phaser.Game({
             debug: false
         }
     },
-    scene: [Preloader, Game, GameUI, GameOver, Title],
+    scene: [Preloader, Game, GameUI, GameOver, Title, Controls],
     scale: {
         zoom: 2
     }

@@ -22,8 +22,24 @@ import slimePNG from '../../assets/enemies/slime.png'
 
 //Import Title Scene Background
 import titleIMG from '../../assets/tiles/Wizards-Dungeon.png'
-//Import Title Scene Button
+//Import Title Scene Buttons
 import startButtonIMG from '../../assets/ui/start_button.png'
+import controlsButtonIMG from '../../assets/ui/controls_button.png'
+
+// Import Controls Scene Background
+import controlsBackgroundIMG from '../../assets/tiles/Controls.png'
+// Import Controls Scene Button
+import backButtonIMG from '../../assets/ui/back_button.png'
+// Import Controls Scene Layout images
+import upKeyIMG from '../../assets/ui/up.png'
+import downKeyIMG from '../../assets/ui/down.png'
+import rightKeyIMG from '../../assets/ui/right.png'
+import leftKeyIMG from '../../assets/ui/left.png'
+import spaceKeyIMG from '../../assets/ui/space.png'
+import shiftKeyIMG from '../../assets/ui/shift.png'
+
+// Import Audio
+import ambientAudio from '../../assets/sounds/dungeon_ambient_1.mp3'
 
 export default class Preloader extends Phaser.Scene
 {
@@ -35,8 +51,21 @@ export default class Preloader extends Phaser.Scene
     {
         //Title Scene Background
         this.load.image('background', titleIMG)
-        //Title Scene Button
+        //Title Scene Buttons
         this.load.image('start-button', startButtonIMG)
+        this.load.image('controls-button', controlsButtonIMG)
+
+        //Controls Scene Background
+        this.load.image('controlsBG', controlsBackgroundIMG)
+        //Controls Scene Button
+        this.load.image('back-button', backButtonIMG)
+        //Controls Scene Layout
+        this.load.image('up-key', upKeyIMG)
+        this.load.image('down-key', downKeyIMG)
+        this.load.image('right-key', rightKeyIMG)
+        this.load.image('left-key', leftKeyIMG)
+        this.load.image('space-key', spaceKeyIMG)
+        this.load.image('shift-key', shiftKeyIMG)
 
         //Walls and Floor
         this.load.image('tiles', dungeonTiles)
