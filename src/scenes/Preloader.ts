@@ -38,9 +38,6 @@ import leftKeyIMG from '../../assets/ui/left.png'
 import spaceKeyIMG from '../../assets/ui/space.png'
 import shiftKeyIMG from '../../assets/ui/shift.png'
 
-// Import Audio
-import ambientAudio from '../../assets/sounds/dungeon_ambient_1.mp3'
-
 export default class Preloader extends Phaser.Scene
 {
     constructor()
