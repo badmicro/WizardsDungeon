@@ -8,7 +8,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "parcel src/index.html -p 6969",
-    "build": "parcel build src/index.html --no-minify",
+    "build": "parcel build src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
