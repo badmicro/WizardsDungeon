@@ -13,6 +13,9 @@ export default class Title extends Phaser.Scene
 
     create(data: { title: string })
     {
+        //play background sound
+        this.sound.play('ambient', { loop: true, volume: 0.25})
+
         let background = this.add.sprite(0, 0, 'background')
         background.setOrigin(0, 0)
         background.setDisplaySize(400, 250)

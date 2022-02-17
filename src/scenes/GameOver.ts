@@ -32,6 +32,7 @@ export default class GameOver extends Phaser.Scene
             this.deathGreave = 0
             if(this.text.text === 'Game Over')
             {
+                this.sound.stopAll()
                 this.scene.start('title')
             }
             else

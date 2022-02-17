@@ -38,6 +38,22 @@ import leftKeyIMG from '../../assets/ui/left.png'
 import spaceKeyIMG from '../../assets/ui/space.png'
 import shiftKeyIMG from '../../assets/ui/shift.png'
 
+// Import Sounds
+import ambient from 'url:../../assets/sounds/Dungeon.mp3'
+
+import slime1 from 'url:../../assets/sounds/slime/slime1.wav'
+import slime2 from 'url:../../assets/sounds/slime/slime2.wav'
+import slime3 from 'url:../../assets/sounds/slime/slime3.wav'
+import slime4 from 'url:../../assets/sounds/slime/slime4.wav'
+
+import potion from 'url:../../assets/sounds/bubble.wav'
+
+import arrow from 'url:../../assets/sounds/swing3.wav'
+import fireball from 'url:../../assets/sounds/Explosion_003.wav'
+
+import injure from 'url:../../assets/sounds/injure.wav'
+import death from 'url:../../assets/sounds/death.wav'
+
 export default class Preloader extends Phaser.Scene
 {
     constructor()
@@ -80,6 +96,22 @@ export default class Preloader extends Phaser.Scene
         this.load.image('health-potion', healthPotion)
         //Enemy
         this.load.atlas('slime', slimePNG, slimeJSON)
+
+        //Sounds
+        this.load.audio('ambient', ambient)
+
+        this.load.audio('slime1', slime1)
+        this.load.audio('slime2', slime2)
+        this.load.audio('slime3', slime3)
+        this.load.audio('slime4', slime4)
+
+        this.load.audio('potion', potion)
+
+        this.load.audio('arrow', arrow)
+        this.load.audio('fireball', fireball)
+
+        this.load.audio('injure', injure)
+        this.load.audio('death', death)
     }
 
     create()

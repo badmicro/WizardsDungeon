@@ -22,6 +22,7 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite
     private direction = Direction.RIGHT
     private moveEvent: Phaser.Time.TimerEvent
     private speed = 50
+    private sound = 0
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number)
     {
@@ -53,6 +54,10 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite
             return
         }
         this.direction = randomDirection(this.direction)
+    }
+
+    private handleSoundCycle(sound: number){
+        
     }
 
     protected preUpdate(t: number, dt: number)

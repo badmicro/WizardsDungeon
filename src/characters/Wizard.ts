@@ -149,6 +149,8 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
         magicMissle.y += vec.y * 16
         magicMissle.setVelocity(vec.x *300, vec.y * 300)
         magicMissle.setTint(0x6AEB2B)
+
+        this.scene.sound.play('arrow', { volume: 0.35 })
     }
 
     private castFireball()
@@ -197,6 +199,7 @@ export default class Wizard extends Phaser.Physics.Arcade.Sprite
         fireball.setVelocity(vec.x *300, vec.y * 300)
         
         this.fireballState = FireballState.ONCOOLDOWN
+        this.scene.sound.play('fireball', { volume: 0.35 })
     }
 
     preUpdate(time: number, delta: number)
