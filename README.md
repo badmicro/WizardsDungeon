@@ -7,9 +7,16 @@ Top Down Dungeon Crawler
 
 Developed with Phaser 3, packaged with Parcel 2, and deployed to Netlify.
 
+
+
 If you are interested in checking out the live demo please visit:
 https://620e7738b5ab2400624c3b41--wizards-dungeon.netlify.app/
 
+
+Controls:
+Movement    -    Arrow Keys
+Space Bar   -   Magic Missles
+Shift       -   Fireball
 
 
 
