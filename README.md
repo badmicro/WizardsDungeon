@@ -7,8 +7,7 @@ Top Down Dungeon Crawler
 
 Developed with Phaser 3, packaged with Parcel 2, and deployed to Netlify.
 
-
-
+To try it for yourself locally, simply clone the repo, run "npm install" then "npm run start".
 If you are interested in checking out the live demo please visit:
 https://620e7738b5ab2400624c3b41--wizards-dungeon.netlify.app/
 
@@ -20,7 +19,7 @@ Shift       -   Fireball
 
 
 
-With special thanks to:
+With special thanks to the asset providers without which I would not have been able to create such a beautiful game:
 
 Itch.io for providing a hub for all my game resources.
 
@@ -35,3 +34,9 @@ Pixel Fantasy RPG Icons for my keyboard controls icons.
 
 Free Texture Packer for packaging my sprite resources.
 (https://free-tex-packer.com/app/)
+
+Super Dialogue Audio Pack V1 by Dillon Becker
+(https://dillonbecker.itch.io/sdap)
+
+RPG Soundtrack Pack
+(https://videogamemusicbylandon.itch.io/rpg-soundtrack-pack)

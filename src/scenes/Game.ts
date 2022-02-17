@@ -121,6 +121,7 @@ export default class Game extends Phaser.Scene
     private handleMagicMisslesWallCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
         this.magicMissles.killAndHide(obj1)
+        obj1.destroy()
     }
 
     private handleMagicSlimeCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
@@ -132,13 +133,14 @@ export default class Game extends Phaser.Scene
         obj1.destroy()
         obj2.destroy()
         this.healthPotions.get(x, y, 'health-potion') as Phaser.Physics.Arcade.Image
+        this.sound.play("slime3")
     }
 
     private handleFireballSlimeCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
         this.slimes.killAndHide(obj2)
         obj2.destroy()
-
+        this.sound.play("slime1")
     }
 
     private handlePlayerHealthPotionCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
@@ -152,6 +154,7 @@ export default class Game extends Phaser.Scene
             this.playerSlimesCollider?.destroy()
             this.playerHealthPotionsCollider?.destroy()
         }
+        this.sound.play('potion')
     }
 
     private handleFireballHealthPotionCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
@@ -177,6 +180,12 @@ export default class Game extends Phaser.Scene
             this.playerSlimesCollider?.destroy()
             this.playerHealthPotionsCollider?.destroy()
         }
+        else
+        {
+            this.sound.play('injure')
+        }
+
+        this.sound.play("slime2")
     }
 
     update(t: number, dt: number)
@@ -188,6 +197,7 @@ export default class Game extends Phaser.Scene
         //Lose Condition
         if(this.player.health <= 0)
         {
+            this.sound.play('death')
             this.scene.start('game-over', { title: 'Game Over' })
             return
         }
