@@ -9,7 +9,7 @@ Developed with Phaser 3, packaged with Parcel 2, and deployed to Netlify.
 
 To try it for yourself locally, simply clone the repo, run "npm install" then "npm run start".
 If you are interested in checking out the live demo please visit:
-https://620e7738b5ab2400624c3b41--wizards-dungeon.netlify.app/
+https://wizards-dungeon.netlify.app/
 
 
 Controls:
